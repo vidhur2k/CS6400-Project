@@ -16,7 +16,7 @@ export default class OneTeamContainer extends React.Component {
                 <TeamSelector />
                 <SeasonSelector />
                 <Row align="center" className="one-team-visualizations-container">
-                    <AllSeasonsVisualizationContainer />
+                    <AllSeasonsVisualizationContainer isTwoTeam={false} />
                 </Row>
             </div>
         )
