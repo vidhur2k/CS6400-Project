@@ -13,8 +13,12 @@ export default class OneTeamContainer extends React.Component {
     render() {
         return (
             <div className="one-team-container">
-                <TeamSelector />
-                <SeasonSelector />
+                <Row align="center">
+                    <TeamSelector />
+                </Row>
+                <Row align="center">
+                    <SeasonSelector />
+                </Row>
                 <Row align="center" className="one-team-visualizations-container">
                     <AllSeasonsVisualizationContainer isTwoTeam={false} />
                 </Row>

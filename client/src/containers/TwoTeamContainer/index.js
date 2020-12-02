@@ -16,12 +16,13 @@ export default class TwoTeamContainer extends React.Component {
                 <Row className="selector-container" justify="center" align="center">
                     <Col span={12}>
                         <TeamSelector />
-                        <SeasonSelector />
                     </Col>
                     <Col span={12}>
                         <TeamSelector />
-                        <SeasonSelector />
                     </Col>
+                </Row>
+                <Row align="center">
+                    <SeasonSelector />
                 </Row>
                 <Row align="center" className="two-team-visualizations-container">
                     <AllSeasonsVisualizationContainer isTwoTeam={true} />
