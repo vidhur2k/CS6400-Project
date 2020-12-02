@@ -17,7 +17,7 @@ export default class SeasonSelector extends React.Component {
                 className="season-selector"
                 size="large"
                 placeholder="Please select a season"
-                onChange={this.onChange}
+                onChange={this.props.onChange}
             >
                 {options}
             </Select>

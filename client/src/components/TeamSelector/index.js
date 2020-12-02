@@ -20,7 +20,7 @@ export default class TeamSelector extends React.Component {
                 className="team-selector"
                 size="large"
                 placeholder="Please select a team"
-                onChange={this.onChange}
+                onChange={this.props.onChange}
             >
                 {options}
             </Select>
