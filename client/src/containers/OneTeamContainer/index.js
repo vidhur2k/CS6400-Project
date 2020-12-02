@@ -3,6 +3,7 @@ import {
     Row,
     message
 } from 'antd';
+import axios from 'axios';
 import TeamSelector from '../../components/TeamSelector';
 import SeasonSelector from '../../components/SeasonSelector';
 import SubmitButton from '../../components/SubmitButton';
@@ -16,7 +17,11 @@ export default class OneTeamContainer extends React.Component {
         super(props);
         this.state = {
             selectedTeam: '',
-            selectedSeason: ''
+            selectedSeason: '',
+            data: {
+                loading: false,
+                games: []
+            }
         }
     }
 
@@ -32,11 +37,30 @@ export default class OneTeamContainer extends React.Component {
         });
     }
 
-    handleSubmit = () => {
+    handleSubmit = async () => {
         if(this.state.selectedTeam.length === 0) {
             message.error('Please select a team');
         } else if(this.state.selectedSeason.length === 0) {
             message.error('Please select a season');
+        } else if(this.state.selectedSeason === 'All'){
+            await this.setState({
+                data: {}
+            })
+            await axios.get(`http://localhost:3000/FindGamesByTeam?name=${this.state.selectedTeam}`)
+                .then(res => {
+                    console.log(res.data);
+                })
+                .catch(err => {
+                    console.log(err);
+                })
+        } else {
+            await axios.get(`http://localhost:3000/FindGamesByTeamAndSeason?name=${this.state.selectedTeam}&season=${this.state.selectedSeason}`)
+                .then(res => {
+                    console.log(res.data);
+                })
+                .catch(err => {
+                    console.log(err);
+                })
         }
     }
 

@@ -4,6 +4,7 @@ import {
     Col,
     message
 } from 'antd';
+import axios from 'axios';
 import TeamSelector from '../../components/TeamSelector';
 import SeasonSelector from '../../components/SeasonSelector';
 import SubmitButton from '../../components/SubmitButton';
@@ -38,11 +39,30 @@ export default class TwoTeamContainer extends React.Component {
         });
     }
 
-    handleSubmit = () => {
+    handleSubmit = async () => {
         if(this.state.selectedFirstTeam.length === 0 || this.state.selectedSecondTeam.length === 0) {
             message.error('Please select a team');
         } else if(this.state.selectedSeason.length === 0) {
             message.error('Please select a season');
+        } else if(this.state.selectedSeason === 'All') {
+            await this.setState({
+                data: {}
+            })
+            await axios.get(`http://localhost:3000/FindGamesByTeams?firstTeam=${this.state.selectedFirstTeam}&secondTeam=${this.state.selectedSecondTeam}`)
+                .then(res => {
+                    console.log(res.data);
+                })
+                .catch(err => {
+                    console.log(err);
+                })
+        } else {
+            // await axios.get(`http://localhost:3000/FindGamesByTeamAndSeason?name=${this.state.selectedTeam}&season=${this.state.selectedSeason}`)
+            // .then(res => {
+            //     console.log(res.data);
+            // })
+            // .catch(err => {
+            //     console.log(err);
+            // })
         }
     }
 
