@@ -4,7 +4,7 @@ import Plot from 'react-plotly.js';
 export default class GameStatsGroupedBarChart extends React.Component {
 
     render() {
-        const stats = ['Corners', 'Fouls', 'Half-time Goals']
+        const stats = ['Corners', 'Fouls', 'Yellow Cards', 'Red Cards']
         const data = [
             {
                 x: stats,
