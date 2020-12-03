@@ -46,51 +46,97 @@ export default class TwoTeamContainer extends React.Component {
         });
     }
 
-    performCalculationsForViz = (games, firstTeamId, secondTeamId) => {
+    performCalculationsForViz = (games, firstTeamId, secondTeamId, isPostgres) => {
         // Yellow, Red, Fouls, Shots, Shots OT, Corners, Half-Time Goals, Total Goals, Wins
         let firstTeamStats = [0, 0, 0, 0, 0, 0, 0, 0, 0];
         let secondTeamStats = [0, 0, 0, 0, 0, 0, 0, 0, 0];
 
-        for(let i = 0; i < games.length; i++) {
-            let game = games[i];
-            if(game['HomeTeam'] === firstTeamId) {
-                firstTeamStats[0] += game['HY'];
-                firstTeamStats[1] += game['HR'];
-                firstTeamStats[2] += game['HF'];
-                firstTeamStats[3] += game['HS'];
-                firstTeamStats[4] += game['HST'];
-                firstTeamStats[5] += game['HC'];
-                firstTeamStats[6] += game['HTHG'];
-                firstTeamStats[7] += game['FTHG'];
-                firstTeamStats[8] += game['FTHG'] > game['FTAG'] ? 1 : 0;
-                secondTeamStats[0] += game['AY'];
-                secondTeamStats[1] += game['AR'];
-                secondTeamStats[2] += game['AF'];
-                secondTeamStats[3] += game['AS'];
-                secondTeamStats[4] += game['AST'];
-                secondTeamStats[5] += game['AC'];
-                secondTeamStats[6] += game['HTAG'];
-                secondTeamStats[7] += game['FTAG'];
-                secondTeamStats[8] += game['FTHG'] < game['FTAG'] ? 1 : 0;
-            } else {
-                secondTeamStats[0] += game['HY'];
-                secondTeamStats[1] += game['HR'];
-                secondTeamStats[2] += game['HF'];
-                secondTeamStats[3] += game['HS'];
-                secondTeamStats[4] += game['HST'];
-                secondTeamStats[5] += game['HC'];
-                secondTeamStats[6] += game['HTHG'];
-                secondTeamStats[7] += game['FTHG'];
-                secondTeamStats[8] += game['FTHG'] > game['FTAG'] ? 1 : 0;
-                firstTeamStats[0] += game['AY'];
-                firstTeamStats[1] += game['AR'];
-                firstTeamStats[2] += game['AF'];
-                firstTeamStats[3] += game['AS'];
-                firstTeamStats[4] += game['AST'];
-                firstTeamStats[5] += game['AC'];
-                firstTeamStats[6] += game['HTAG'];
-                firstTeamStats[7] += game['FTAG'];
-                firstTeamStats[8] += game['FTHG'] < game['FTAG'] ? 1 : 0;
+        if(isPostgres === 1) {
+            console.log('in here');
+            for(let i = 0; i < games.length; i++) {
+                let game = games[i];
+                if(game['home_team'] === firstTeamId) {
+                    firstTeamStats[0] += game['hy'];
+                    firstTeamStats[1] += game['hr'];
+                    firstTeamStats[2] += game['hf'];
+                    firstTeamStats[3] += game['hs'];
+                    firstTeamStats[4] += game['hst'];
+                    firstTeamStats[5] += game['hc'];
+                    firstTeamStats[6] += game['hthg'];
+                    firstTeamStats[7] += game['fthg'];
+                    firstTeamStats[8] += game['fthg'] > game['ftag'] ? 1 : 0;
+                    secondTeamStats[0] += game['ay'];
+                    secondTeamStats[1] += game['ar'];
+                    secondTeamStats[2] += game['af'];
+                    secondTeamStats[3] += game['_as'];
+                    secondTeamStats[4] += game['ast'];
+                    secondTeamStats[5] += game['ac'];
+                    secondTeamStats[6] += game['htag'];
+                    secondTeamStats[7] += game['ftag'];
+                    secondTeamStats[8] += game['fthg'] < game['ftag'] ? 1 : 0;
+                } else {
+                    secondTeamStats[0] += game['hy'];
+                    secondTeamStats[1] += game['hr'];
+                    secondTeamStats[2] += game['hf'];
+                    secondTeamStats[3] += game['hs'];
+                    secondTeamStats[4] += game['hst'];
+                    secondTeamStats[5] += game['hc'];
+                    secondTeamStats[6] += game['hthg'];
+                    secondTeamStats[7] += game['fthg'];
+                    secondTeamStats[8] += game['fthg'] > game['ftag'] ? 1 : 0;
+                    firstTeamStats[0] += game['ay'];
+                    firstTeamStats[1] += game['ar'];
+                    firstTeamStats[2] += game['af'];
+                    firstTeamStats[3] += game['_as'];
+                    firstTeamStats[4] += game['ast'];
+                    firstTeamStats[5] += game['ac'];
+                    firstTeamStats[6] += game['htag'];
+                    firstTeamStats[7] += game['ftag'];
+                    firstTeamStats[8] += game['fthg'] < game['ftag'] ? 1 : 0;
+                }
+            }
+        } else {
+            for(let i = 0; i < games.length; i++) {
+                let game = games[i];
+                if(game['HomeTeam'] === firstTeamId) {
+                    firstTeamStats[0] += game['HY'];
+                    firstTeamStats[1] += game['HR'];
+                    firstTeamStats[2] += game['HF'];
+                    firstTeamStats[3] += game['HS'];
+                    firstTeamStats[4] += game['HST'];
+                    firstTeamStats[5] += game['HC'];
+                    firstTeamStats[6] += game['HTHG'];
+                    firstTeamStats[7] += game['FTHG'];
+                    firstTeamStats[8] += game['FTHG'] > game['FTAG'] ? 1 : 0;
+                    secondTeamStats[0] += game['AY'];
+                    secondTeamStats[1] += game['AR'];
+                    secondTeamStats[2] += game['AF'];
+                    secondTeamStats[3] += game['AS'];
+                    secondTeamStats[4] += game['AST'];
+                    secondTeamStats[5] += game['AC'];
+                    secondTeamStats[6] += game['HTAG'];
+                    secondTeamStats[7] += game['FTAG'];
+                    secondTeamStats[8] += game['FTHG'] < game['FTAG'] ? 1 : 0;
+                } else {
+                    secondTeamStats[0] += game['HY'];
+                    secondTeamStats[1] += game['HR'];
+                    secondTeamStats[2] += game['HF'];
+                    secondTeamStats[3] += game['HS'];
+                    secondTeamStats[4] += game['HST'];
+                    secondTeamStats[5] += game['HC'];
+                    secondTeamStats[6] += game['HTHG'];
+                    secondTeamStats[7] += game['FTHG'];
+                    secondTeamStats[8] += game['FTHG'] > game['FTAG'] ? 1 : 0;
+                    firstTeamStats[0] += game['AY'];
+                    firstTeamStats[1] += game['AR'];
+                    firstTeamStats[2] += game['AF'];
+                    firstTeamStats[3] += game['AS'];
+                    firstTeamStats[4] += game['AST'];
+                    firstTeamStats[5] += game['AC'];
+                    firstTeamStats[6] += game['HTAG'];
+                    firstTeamStats[7] += game['FTAG'];
+                    firstTeamStats[8] += game['FTHG'] < game['FTAG'] ? 1 : 0;
+                }
             }
         }
 
@@ -112,7 +158,7 @@ export default class TwoTeamContainer extends React.Component {
             await axios.get(`http://localhost:3000/FindGamesByTeams?firstTeam=${this.state.selectedFirstTeam}&secondTeam=${this.state.selectedSecondTeam}`)
                 .then(async res => {
                     await this.setState({
-                        stats: this.performCalculationsForViz(res.data['games'], res.data.teamId),
+                        stats: this.performCalculationsForViz(res.data['games'], res.data.firstTeamId, res.data.secondTeamId, res.data.isPostgres),
                         data: {
                             loading: false,
                             games: res.data
@@ -132,7 +178,7 @@ export default class TwoTeamContainer extends React.Component {
             await axios.get(`http://localhost:3000/FindGamesByTeamsAndSeason?firstTeam=${this.state.selectedFirstTeam}&secondTeam=${this.state.selectedSecondTeam}&season=${this.state.selectedSeason}`)
             .then(async res => {
                 await this.setState({
-                    stats: this.performCalculationsForViz(res.data['games'], res.data.teamId),
+                    stats: this.performCalculationsForViz(res.data['games'], res.data.teamId, res.data.isPostgres),
                     data: {
                         loading: false,
                         games: res.data

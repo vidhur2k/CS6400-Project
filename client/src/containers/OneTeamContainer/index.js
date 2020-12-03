@@ -40,32 +40,59 @@ export default class OneTeamContainer extends React.Component {
         });
     }
 
-    performCalculationsForViz = (games, teamId) => {
+    performCalculationsForViz = (games, teamId, isPostgres) => {
         // Yellow, Red, Fouls, Shots, Shots OT, Corners, Half-Time Goals, Total Goals, Wins
         let stats = [0, 0, 0, 0, 0, 0, 0, 0, 0];
 
-        for(let i = 0; i < games.length; i++) {
-            let game = games[i];
-            if(game['HomeTeam'] === teamId) {
-                stats[0] += game['HY'];
-                stats[1] += game['HR'];
-                stats[2] += game['HF'];
-                stats[3] += game['HS'];
-                stats[4] += game['HST'];
-                stats[5] += game['HC'];
-                stats[6] += game['HTHG'];
-                stats[7] += game['FTHG'];
-                stats[8] += game['FTHG'] > game['FTAG'] ? 1 : 0;
-            } else {
-                stats[0] += game['AY'];
-                stats[1] += game['AR'];
-                stats[2] += game['AF'];
-                stats[3] += game['AS'];
-                stats[4] += game['AST'];
-                stats[5] += game['AC'];
-                stats[6] += game['HTAG'];
-                stats[7] += game['FTAG'];
-                stats[8] += game['FTHG'] < game['FTAG'] ? 1 : 0;
+        if(isPostgres === 1) {
+            for(let i = 0; i < games.length; i++) {
+                let game = games[i];
+                if(game['home_team'] === teamId) {
+                    stats[0] += game['hy'];
+                    stats[1] += game['hr'];
+                    stats[2] += game['hf'];
+                    stats[3] += game['hs'];
+                    stats[4] += game['hst'];
+                    stats[5] += game['hc'];
+                    stats[6] += game['hthg'];
+                    stats[7] += game['fthg'];
+                    stats[8] += game['fthg'] > game['ftag'] ? 1 : 0;
+                } else {
+                    stats[0] += game['ay'];
+                    stats[1] += game['ar'];
+                    stats[2] += game['af'];
+                    stats[3] += game['_as'];
+                    stats[4] += game['ast'];
+                    stats[5] += game['ac'];
+                    stats[6] += game['htag'];
+                    stats[7] += game['ftag'];
+                    stats[8] += game['fthg'] < game['ftag'] ? 1 : 0;
+                }
+            }
+        } else {
+            for(let i = 0; i < games.length; i++) {
+                let game = games[i];
+                if(game['HomeTeam'] === teamId) {
+                    stats[0] += game['HY'];
+                    stats[1] += game['HR'];
+                    stats[2] += game['HF'];
+                    stats[3] += game['HS'];
+                    stats[4] += game['HST'];
+                    stats[5] += game['HC'];
+                    stats[6] += game['HTHG'];
+                    stats[7] += game['FTHG'];
+                    stats[8] += game['FTHG'] > game['FTAG'] ? 1 : 0;
+                } else {
+                    stats[0] += game['AY'];
+                    stats[1] += game['AR'];
+                    stats[2] += game['AF'];
+                    stats[3] += game['AS'];
+                    stats[4] += game['AST'];
+                    stats[5] += game['AC'];
+                    stats[6] += game['HTAG'];
+                    stats[7] += game['FTAG'];
+                    stats[8] += game['FTHG'] < game['FTAG'] ? 1 : 0;
+                }
             }
         }
 
@@ -87,12 +114,13 @@ export default class OneTeamContainer extends React.Component {
             await axios.get(`http://localhost:3000/FindGamesByTeam?name=${this.state.selectedTeam}`)
                 .then(async res => {
                     await this.setState({
-                        stats: this.performCalculationsForViz(res.data['games'], res.data.teamId),
+                        stats: this.performCalculationsForViz(res.data['games'], res.data.teamId, res.data.isPostgres),
                         data: {
                             loading: false,
                             games: res.data
                         }
                     });
+                    console.log(this.performCalculationsForViz(res.data['games'], res.data.teamId, res.data.isPostgres));
                 })
                 .catch(err => {
                     console.log(err);
@@ -107,7 +135,7 @@ export default class OneTeamContainer extends React.Component {
             await axios.get(`http://localhost:3000/FindGamesByTeamAndSeason?name=${this.state.selectedTeam}&season=${this.state.selectedSeason}`)
                 .then(async res => {
                     await this.setState({
-                        stats: this.performCalculationsForViz(res.data['games'], res.data.teamId),
+                        stats: this.performCalculationsForViz(res.data['games'], res.data.teamId, res.data.isPostgres),
                         data: {
                             loading: false,
                             games: res.data
