@@ -25,9 +25,21 @@ The data for each relation (including primary keys) is located in the `data/post
 to a Postgres table.
 - Now, your database is ready to go! Ensure that it is running when you try to run the API in
 the `postgreserver/` directory.
+- **NOTE:** Ideally, we would have liked to keep our PostgreSQL instance on the cloud as well, but
+none of the offerings' free tiers were ideal for what we wanted to do.
+
+**Data Preprocessing using Pandas**
+- A significant amount of time went into the preprocessing stage of the data pipeline due to poor documentation of the data.
+- All of the preprocessing is in the `preprocessing.ipynb` notebook. To run it, you need to have **Jupyter** installed.
+If you don't have it installed, use [these](https://jupyter.org/install) instructions. 
+
+**Benchmarking**
+- As far as this is concerned, we ran simple read and update latency tests on both databases. The results are
+visualized in `experiments.ipynb`. The numbers we passed in there were the result of running a 
+particular test 5 times and taking the average result to ensure statistical significance. Run it as it is to see what we found.
 
 
-### Application and Code
+### 2. Application and Code
 We are using the following programming languages:
 1. **Python**: Version 3.7 (for all the Jupyter Notebooks)
 2. **NodeJS**: Version 12.19.0 (for Express API development within the `mongoserver/` and `postgreserver` directories.)
@@ -41,4 +53,27 @@ Fortunately, the third party libraries we are using for the actual application a
 file in `client/`, `mongoserver/`, and `postgreserver/` directories. In order to install them, simply
 cd into the directories and run `npm i -s`.
 
+##### Running the Servers
+- Keep in mind that *you are only supposed to run one server at a time*. Also, ensure that you have completed the setup
+in the **Data Preparation and Setup** section. 
+- In order to run the server, simply cd into the corresponding directory and run `node server.js`. You will see the following
+response on the CLI:
+![server](images/server.png)
+
+### Running the Client
+- The client is a React application and we use **yarn** as a package manager for it.
+- Start one of the servers. They will run on port 3000.
+- In order to run it, simply cd into `client/` and run `yarn` followed by `yarn start`. You will see the following prompt:
+![client](images/client.png)
+Type **y** into the console and it'll start the application for you on a **localhost** window. The port doesn't
+matter in this case.
+- You have a running application now! Have fun viewing different teams' stats (Man United is very attractive take a look.)
+
 ### Code Documentation and References
+- We have not used anyone else's code in this project. It is entirely our work. All files (except for 
+`node_modules` and some boilerplate React code) were written by us as well.
+- Running the client should land you on this page:
+![client2](images/client2.png)
+This is the one team page view. The toggle on the top left is used to switch between one and two team views.
+- Here is an example of the results displayed for Chelsea and Manchester United:
+![client3](images/client3.png)
