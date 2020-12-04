@@ -31,7 +31,9 @@ none of the offerings' free tiers were ideal for what we wanted to do.
 **Data Preprocessing using Pandas**
 - A significant amount of time went into the preprocessing stage of the data pipeline due to poor documentation of the data.
 - All of the preprocessing is in the `preprocessing.ipynb` notebook. To run it, you need to have **Jupyter** installed.
-If you don't have it installed, use [these](https://jupyter.org/install) instructions. 
+If you don't have it installed, use [these](https://jupyter.org/install) instructions.
+- All third party libraries can be installed using the following commands (which are present in the first cell of the notebook):
+   `pip install numpy` and `pip install pandas`. 
 
 **Benchmarking**
 - As far as this is concerned, we ran simple read and update latency tests on both databases. The results are
