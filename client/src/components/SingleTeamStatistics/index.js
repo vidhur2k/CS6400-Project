@@ -14,7 +14,7 @@ export default class SingleTeamStatistics extends React.Component {
             <div className="single-team-statistics">
                 <h3>{this.props.teamName}</h3>
                 <Row>
-                    <Col span={12}>
+                    <Col span={8}>
                         <Card>
                             <Statistic 
                                 title="Wins"
@@ -22,11 +22,20 @@ export default class SingleTeamStatistics extends React.Component {
                             />
                         </Card>
                     </Col>
-                    <Col span={12}>
+                    <Col span={8}>
                         <Card>
                             <Statistic 
-                                title="Goals"
+                                title="Goals per Game"
                                 value={this.props.goals}
+                                precision={2}
+                            />
+                        </Card>
+                    </Col>
+                    <Col span={8}>
+                        <Card>
+                            <Statistic 
+                                title="Clean Sheets"
+                                value={this.props.cleanSheets}
                             />
                         </Card>
                     </Col>

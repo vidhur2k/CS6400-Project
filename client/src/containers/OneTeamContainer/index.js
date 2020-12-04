@@ -10,7 +10,6 @@ import TeamSelector from '../../components/TeamSelector';
 import SeasonSelector from '../../components/SeasonSelector';
 import SubmitButton from '../../components/SubmitButton';
 import AllSeasonsVisualizationContainer from '../AllSeasonsVisualizationContainer';
-import SingleSeasonVisualizationContainer from '../SingleSeasonVisualizationContainer';
 import './OneTeamContainer.css';
 
 export default class OneTeamContainer extends React.Component {
@@ -41,8 +40,8 @@ export default class OneTeamContainer extends React.Component {
     }
 
     performCalculationsForViz = (games, teamId, isPostgres) => {
-        // Yellow, Red, Fouls, Shots, Shots OT, Corners, Half-Time Goals, Total Goals, Wins
-        let stats = [0, 0, 0, 0, 0, 0, 0, 0, 0];
+        // Yellow, Red, Fouls, Shots, Shots OT, Corners, Half-Time Goals, Total Goals, Wins, Average Goals, Clean Sheets
+        let stats = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 
         if(isPostgres === 1) {
             for(let i = 0; i < games.length; i++) {
@@ -57,6 +56,7 @@ export default class OneTeamContainer extends React.Component {
                     stats[6] += game['hthg'];
                     stats[7] += game['fthg'];
                     stats[8] += game['fthg'] > game['ftag'] ? 1 : 0;
+                    stats[10] += game['ftag'] === 0 ? 1 : 0;
                 } else {
                     stats[0] += game['ay'];
                     stats[1] += game['ar'];
@@ -67,6 +67,7 @@ export default class OneTeamContainer extends React.Component {
                     stats[6] += game['htag'];
                     stats[7] += game['ftag'];
                     stats[8] += game['fthg'] < game['ftag'] ? 1 : 0;
+                    stats[10] += game['fthg'] === 0 ? 1 : 0;
                 }
             }
         } else {
@@ -82,6 +83,7 @@ export default class OneTeamContainer extends React.Component {
                     stats[6] += game['HTHG'];
                     stats[7] += game['FTHG'];
                     stats[8] += game['FTHG'] > game['FTAG'] ? 1 : 0;
+                    stats[10] += game['FTAG'] === 0 ? 1 : 0;
                 } else {
                     stats[0] += game['AY'];
                     stats[1] += game['AR'];
@@ -92,9 +94,12 @@ export default class OneTeamContainer extends React.Component {
                     stats[6] += game['HTAG'];
                     stats[7] += game['FTAG'];
                     stats[8] += game['FTHG'] < game['FTAG'] ? 1 : 0;
+                    stats[10] += game['FTHG'] === 0 ? 1 : 0;
                 }
             }
         }
+
+        stats[9] = stats[7] / games.length;
 
         return stats;
     }
@@ -120,7 +125,7 @@ export default class OneTeamContainer extends React.Component {
                             games: res.data
                         }
                     });
-                    console.log(this.performCalculationsForViz(res.data['games'], res.data.teamId, res.data.isPostgres));
+                    console.log(res.data);
                 })
                 .catch(err => {
                     console.log(err);
@@ -141,6 +146,7 @@ export default class OneTeamContainer extends React.Component {
                             games: res.data
                         }
                     });
+                    console.log(res.data);
                 })
                 .catch(err => {
                     console.log(err);

@@ -17,6 +17,9 @@ connect().catch(console.dir);
 app.use(cors());
 
 app.get('/', (req, res) => {
+    console.time();
+    db.collection('games').find({}).explain("executionStats");
+    console.timeEnd();
     res.send('hello');
 });
 
@@ -79,11 +82,11 @@ app.get('/FindGamesByTeamAndSeason', async (req, res) => {
     await collection.find({
         AwayTeam: teamId.toString(),
         Season: season
-    }).toArray((err, items) => {
+    }).toArray(async (err, items) => {
         if(err) {
             console.log(err);
         }
-        games = games.concat(items);
+        games = await games.concat(items);
         response['games'] = games;
         res.send(response);
     });

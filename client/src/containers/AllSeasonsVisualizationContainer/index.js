@@ -8,6 +8,7 @@ import GameStatsGroupedBarChart from '../../components/GameStatsGroupedBarChart'
 import ShotSplitPieChart from '../../components/ShotSplitPieChart';
 import ShotSplitGroupedPieChart from '../../components/ShotSplitGroupedPieChart';
 import GoalSplitPieChart from '../../components/GoalSplitPieChart';
+import GoalSplitGroupedPieChart from '../../components/GoalSplitGroupedPieChart';
 import HeadToHeadStatistics from '../../components/HeadToHeadStatistics';
 import SingleTeamStatistics from '../../components/SingleTeamStatistics';
 export default class AllSeasonsVisualizationContainer extends React.Component {
@@ -18,11 +19,14 @@ export default class AllSeasonsVisualizationContainer extends React.Component {
                 firstTeam={this.props.firstTeamName}
                 secondTeam={this.props.secondTeamName}
                 wins={[this.props.stats[0][8], this.props.stats[1][8]]}
+                goals={[this.props.stats[0][9], this.props.stats[1][9]]}
+                cleanSheets={[this.props.stats[0][10], this.props.stats[1][10]]}
             /> :
             <SingleTeamStatistics 
                 teamName={this.props.teamName}
                 wins={this.props.stats[8]}
-                goals={this.props.stats[7]}
+                goals={this.props.stats[9]}
+                cleanSheets={this.props.stats[10]}
             />;
         const gameStats = this.props.isTwoTeam ?
             <GameStatsGroupedBarChart 
@@ -37,11 +41,20 @@ export default class AllSeasonsVisualizationContainer extends React.Component {
             />;
         const shotSplit = this.props.isTwoTeam ?
             <ShotSplitGroupedPieChart 
+                names={[this.props.firstTeamName, this.props.secondTeamName]}
                 shots={[[this.props.stats[0][3], this.props.stats[0][4]], [this.props.stats[1][3], this.props.stats[1][4]]]}
             /> :
             <ShotSplitPieChart 
                 shots={[this.props.stats[3], this.props.stats[4]]}
             />
+        const goalSplit = this.props.isTwoTeam ?
+            <GoalSplitGroupedPieChart 
+                names={[this.props.firstTeamName, this.props.secondTeamName]}
+                goals={[[this.props.stats[0][6], this.props.stats[0][7] - this.props.stats[0][6]], [this.props.stats[1][6], this.props.stats[1][7] - this.props.stats[1][6]]]}
+            /> :
+            <GoalSplitPieChart 
+                goals={[this.props.stats[6], this.props.stats[7] - this.props.stats[6]]}
+            />            
         return (
             <div>
                 <Row align="center">
@@ -52,7 +65,7 @@ export default class AllSeasonsVisualizationContainer extends React.Component {
                         {gameStats}
                     </Col>
                     <Col span={12}>
-                        <GoalSplitPieChart goals={[this.props.stats[6], this.props.stats[7] - this.props.stats[6]]}/>            
+                        {goalSplit}
                     </Col>  
                 </Row>
                 <Row>

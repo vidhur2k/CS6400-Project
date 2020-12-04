@@ -47,12 +47,11 @@ export default class TwoTeamContainer extends React.Component {
     }
 
     performCalculationsForViz = (games, firstTeamId, secondTeamId, isPostgres) => {
-        // Yellow, Red, Fouls, Shots, Shots OT, Corners, Half-Time Goals, Total Goals, Wins
-        let firstTeamStats = [0, 0, 0, 0, 0, 0, 0, 0, 0];
-        let secondTeamStats = [0, 0, 0, 0, 0, 0, 0, 0, 0];
+        // Yellow, Red, Fouls, Shots, Shots OT, Corners, Half-Time Goals, Total Goals, Wins, Average Goals, Clean Sheets
+        let firstTeamStats = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+        let secondTeamStats = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 
         if(isPostgres === 1) {
-            console.log('in here');
             for(let i = 0; i < games.length; i++) {
                 let game = games[i];
                 if(game['home_team'] === firstTeamId) {
@@ -65,6 +64,7 @@ export default class TwoTeamContainer extends React.Component {
                     firstTeamStats[6] += game['hthg'];
                     firstTeamStats[7] += game['fthg'];
                     firstTeamStats[8] += game['fthg'] > game['ftag'] ? 1 : 0;
+                    firstTeamStats[10] += game['ftag'] === 0 ? 1 : 0;
                     secondTeamStats[0] += game['ay'];
                     secondTeamStats[1] += game['ar'];
                     secondTeamStats[2] += game['af'];
@@ -74,6 +74,7 @@ export default class TwoTeamContainer extends React.Component {
                     secondTeamStats[6] += game['htag'];
                     secondTeamStats[7] += game['ftag'];
                     secondTeamStats[8] += game['fthg'] < game['ftag'] ? 1 : 0;
+                    secondTeamStats[10] += game['fthg'] === 0 ? 1 : 0;
                 } else {
                     secondTeamStats[0] += game['hy'];
                     secondTeamStats[1] += game['hr'];
@@ -84,6 +85,7 @@ export default class TwoTeamContainer extends React.Component {
                     secondTeamStats[6] += game['hthg'];
                     secondTeamStats[7] += game['fthg'];
                     secondTeamStats[8] += game['fthg'] > game['ftag'] ? 1 : 0;
+                    secondTeamStats[10] += game['ftag'] === 0 ? 1 : 0;
                     firstTeamStats[0] += game['ay'];
                     firstTeamStats[1] += game['ar'];
                     firstTeamStats[2] += game['af'];
@@ -93,6 +95,7 @@ export default class TwoTeamContainer extends React.Component {
                     firstTeamStats[6] += game['htag'];
                     firstTeamStats[7] += game['ftag'];
                     firstTeamStats[8] += game['fthg'] < game['ftag'] ? 1 : 0;
+                    firstTeamStats[10] += game['fthg'] === 0 ? 1 : 0;
                 }
             }
         } else {
@@ -108,6 +111,7 @@ export default class TwoTeamContainer extends React.Component {
                     firstTeamStats[6] += game['HTHG'];
                     firstTeamStats[7] += game['FTHG'];
                     firstTeamStats[8] += game['FTHG'] > game['FTAG'] ? 1 : 0;
+                    firstTeamStats[10] += game['FTAG'] === 0 ? 1 : 0;
                     secondTeamStats[0] += game['AY'];
                     secondTeamStats[1] += game['AR'];
                     secondTeamStats[2] += game['AF'];
@@ -117,6 +121,7 @@ export default class TwoTeamContainer extends React.Component {
                     secondTeamStats[6] += game['HTAG'];
                     secondTeamStats[7] += game['FTAG'];
                     secondTeamStats[8] += game['FTHG'] < game['FTAG'] ? 1 : 0;
+                    secondTeamStats[10] += game['FTHG'] === 0 ? 1 : 0;
                 } else {
                     secondTeamStats[0] += game['HY'];
                     secondTeamStats[1] += game['HR'];
@@ -127,6 +132,7 @@ export default class TwoTeamContainer extends React.Component {
                     secondTeamStats[6] += game['HTHG'];
                     secondTeamStats[7] += game['FTHG'];
                     secondTeamStats[8] += game['FTHG'] > game['FTAG'] ? 1 : 0;
+                    secondTeamStats[10] += game['FTAG'] === 0 ? 1 : 0;
                     firstTeamStats[0] += game['AY'];
                     firstTeamStats[1] += game['AR'];
                     firstTeamStats[2] += game['AF'];
@@ -136,9 +142,13 @@ export default class TwoTeamContainer extends React.Component {
                     firstTeamStats[6] += game['HTAG'];
                     firstTeamStats[7] += game['FTAG'];
                     firstTeamStats[8] += game['FTHG'] < game['FTAG'] ? 1 : 0;
+                    firstTeamStats[10] += game['FTHG'] === 0 ? 1 : 0;
                 }
             }
         }
+
+        firstTeamStats[9] = firstTeamStats[7] / games.length;
+        secondTeamStats[9] = secondTeamStats[7] / games.length;
 
         return [firstTeamStats, secondTeamStats];
     }
