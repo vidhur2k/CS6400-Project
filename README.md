@@ -79,3 +79,11 @@ matter in this case.
 This is the one team page view. The toggle on the top left is used to switch between one and two team views.
 - Here is an example of the results displayed for Chelsea and Manchester United:
 ![client3](images/client3.png)
+
+##### Link to the Datasets we used
+- https://data.world/andres/2013-2014-premier-league
+- https://data.world/chas/2014-15-premier-league-matches
+- https://data.world/chas/2015-2016-premier-leage-matches
+- https://data.world/chas/2016-2017-premier-league-matches
+- https://data.world/chas/2017-2018-premier-leage-matches
+- https://data.world/chas/2018-2019-premier-league-matches
