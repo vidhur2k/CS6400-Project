@@ -60,13 +60,13 @@ cd into the directories and run `npm i -s`.
 in the **Data Preparation and Setup** section. 
 - In order to run the server, simply cd into the corresponding directory and run `node server.js`. You will see the following
 response on the CLI:
-![server](images/server.png)
+![server](../images/server.png)
 
 ### Running the Client
 - The client is a React application and we use **yarn** as a package manager for it.
 - Start one of the servers. They will run on port 3000.
 - In order to run it, simply cd into `client/` and run `yarn` followed by `yarn start`. You will see the following prompt:
-![client](images/client.png)
+![client](../images/client.png)
 Type **y** into the console and it'll start the application for you on a **localhost** window. The port doesn't
 matter in this case.
 - You have a running application now! Have fun viewing different teams' stats (Man United is very attractive take a look.)
@@ -75,10 +75,10 @@ matter in this case.
 - We have not used anyone else's code in this project. It is entirely our work. All files (except for 
 `node_modules` and some boilerplate React code) were written by us as well.
 - Running the client should land you on this page:
-![client2](images/client2.png)
+![client2](../images/client2.png)
 This is the one team page view. The toggle on the top left is used to switch between one and two team views.
 - Here is an example of the results displayed for Chelsea and Manchester United:
-![client3](images/client3.png)
+![client3](../images/client3.png)
 
 ##### Link to the Datasets we used
 - https://data.world/andres/2013-2014-premier-league
