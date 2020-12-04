@@ -3,15 +3,28 @@
 ## Instructions for Setup
 
 ### 1. Data Preparation and Setup
-We are using the following database systems:
-1. **MongoDB**: Version 4.2.11 (Atlas Cluster)  
+We are using the following database systems:  
+**MongoDB**: Version 4.2.11 (Atlas Cluster)  
 - Install the MongoDB CLI following [these](https://docs.mongodb.com/mongocli/v1.8/install) instructions.
-- This is an instance that is runnning on the Cloud. We have created a 
+- Our database is running on an Atlas cluster. We have created a database user for you guys to read from the database.
+- Ensure your Mongo Shell is on Version 4.0. Connect to the `eplgames` instance using the following command:
+`mongo "mongodb+srv://eplgames.t3whn.mongodb.net/eplgames" --username cs6400staff` (run this on the Mongo shell).
+- When prompted for a password, type in `navathe`. You should be able to connect to the instance this way.
 
-2. **PostgreSQL**: Version 13.1  
-##### Instructions 
+**PostgreSQL**: Version 13.1  
 - Install the PostgreSQL binary from [this](https://www.postgresql.org/download/) page.
-- 
+- Run `postgres -V` to ensure that you are on Version 13.1. Next, run `psql` to start your PostgreSQL CLI.
+- Next, we create the database tables. Use the following commands on the CLI to create the relations:
+    1. `CREATE TABLE referees(id SERIAL PRIMARY KEY, name TEXT NOT NULL)`
+    2. `CREATE TABLE teams(id SERIAL PRIMARY KEY, name TEXT NOT NULL)`
+    3. `CREATE TABLE games(id SERIAL PRIMARY KEY, home_team int, away_team int,
+        )`
+- Once we do this, we can upload the data to the PostgreSQL database from the CSVs we have prepared using Pandas.
+The data for each relation (including primary keys) is located in the `data/postgres/` subdirectory. Follow 
+[this](https://dataschool.com/learn-sql/importing-data-from-csv-in-postgresql/) tutorial on importing data from a CSV
+to a Postgres table.
+- Now, your database is ready to go! Ensure that it is running when you try to run the API in
+the `postgreserver/` directory.
 
 
 ### Application and Code
